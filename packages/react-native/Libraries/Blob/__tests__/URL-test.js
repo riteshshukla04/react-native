@@ -76,7 +76,7 @@ describe('URL', function () {
     const paramsFromObject = new URLSearchParams({
       user: 'john',
       age: '30',
-      active: 'true',
+      active: 'true',//test
     });
 
     expect(paramsFromObject.get('user')).toBe('john');
