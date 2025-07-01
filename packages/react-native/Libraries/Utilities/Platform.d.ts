@@ -30,7 +30,7 @@ type PlatformConstants = {
 interface PlatformStatic {
   isTV: boolean;
   isTesting: boolean;
-  Version: number | string;
+  Version: number | string ;
   constants: PlatformConstants;
 
   /**
@@ -92,7 +92,7 @@ interface PlatformWindowsOSStatic extends PlatformStatic {
   };
 }
 
-interface PlatformWebStatic extends PlatformStatic {
+interface PlatformWebStatic extends Omit<PlatformStatic, 'Version'> {
   OS: 'web';
 }
 
