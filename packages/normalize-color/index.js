@@ -40,7 +40,6 @@ function normalizeColor(color) {
 }
 
 function parseColorString(color) {
-
   const matchers = getMatchers();
   let match;
 
