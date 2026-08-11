@@ -26,14 +26,17 @@ function normalizeColor(color) {
     return null;
   }
 
-  const cachedColor = cachedColors.get(color);
-  if (cachedColor !== undefined) {
+  if (cachedColors.has(color)) {
+    // Map iteration order follows insertion order, so re-inserting on every
+    // hit keeps the least-recently-used entry first.
+    const cachedColor = cachedColors.get(color);
+    cachedColors.delete(color);
+    cachedColors.set(color, cachedColor);
     return cachedColor;
   }
   const normalizedColor = parseColorString(color);
-  // To avoid CachedColors increasing indefinetly
   if (cachedColors.size >= 1024) {
-    cachedColors.clear();
+    cachedColors.delete(cachedColors.keys().next().value);
   }
   cachedColors.set(color, normalizedColor);
   return normalizedColor;
