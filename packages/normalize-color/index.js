@@ -12,6 +12,8 @@
 
 'use strict';
 
+const cachedColors = new Map();
+
 function normalizeColor(color) {
   if (typeof color === 'number') {
     if (color >>> 0 === color && color >= 0 && color <= 0xffffffff) {
@@ -23,6 +25,21 @@ function normalizeColor(color) {
   if (typeof color !== 'string') {
     return null;
   }
+
+  const cachedColor = cachedColors.get(color);
+  if (cachedColor !== undefined) {
+    return cachedColor;
+  }
+  const normalizedColor = parseColorString(color);
+  // To avoid CachedColors increasing indefinetly
+  if (cachedColors.size >= 1024) {
+    cachedColors.clear();
+  }
+  cachedColors.set(color, normalizedColor);
+  return normalizedColor;
+}
+
+function parseColorString(color) {
 
   const matchers = getMatchers();
   let match;
